@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CSharp4
+{
+    public class ShorthandEventRaiser
+    {
+        public void OnClick()
+        {
+            ClickHandler tmp  = Click;
+            if (tmp != null)
+            {
+                tmp.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event ClickHandler Click;
+    }
+}
