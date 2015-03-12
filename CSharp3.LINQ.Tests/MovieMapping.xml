@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Database Name="Sandbox" xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007">
+  <Table Name="dbo.Movies" Member="Movies">
+    <Type Name="CSharp3.LINQ.Movie">
+      <Column Name="movie_id" Member="Id" />
+      <Column Name="title" Member="Title" />
+      <Column Name="release_date" Member="ReleaseDate" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CSharp3.LINQ.EF.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MovieReviews">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="movie_id" Type="int" Nullable="false" />
+          <Property Name="reviewer_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="reviewer_date" Type="datetime" Nullable="false" />
+          <Property Name="body" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="movie_id" />
+          </Key>
+          <Property Name="movie_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="release_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_movie_review">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="MovieReviews" Type="Self.MovieReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="movie_id" />
+            </Principal>
+            <Dependent Role="MovieReviews">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CSharp3LINQEFStoreContainer">
+          <EntitySet Name="MovieReviews" EntityType="Self.MovieReviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_movie_review" Association="Self.fk_movie_review">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieReviews" EntitySet="MovieReviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CSharp3.LINQ.EF" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewId" />
+          </Key>
+          <Property Name="ReviewId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="Int32" Nullable="false" />
+          <Property Name="ReviewerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewerDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Body" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movie" Relationship="Self.fk_movie_review" FromRole="MovieReviews" ToRole="Movies" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="Reviews" Relationship="Self.fk_movie_review" FromRole="Movies" ToRole="MovieReviews" />
+        </EntityType>
+        <Association Name="fk_movie_review">
+          <End Role="Movies" Type="CSharp3.LINQ.EF.Movie" Multiplicity="1" />
+          <End Role="MovieReviews" Type="CSharp3.LINQ.EF.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieReviews">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MovieReviews" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Reviews" EntityType="CSharp3.LINQ.EF.Review" />
+          <EntitySet Name="Movies1" EntityType="CSharp3.LINQ.EF.Movie" />
+          <AssociationSet Name="fk_movie_review" Association="Self.fk_movie_review">
+            <End Role="Movies" EntitySet="Movies1" />
+            <End Role="MovieReviews" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CSharp3LINQEFStoreContainer" CdmEntityContainer="MovieReviews">
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="CSharp3.LINQ.EF.Review">
+              <MappingFragment StoreEntitySet="MovieReviews">
+                <ScalarProperty Name="ReviewId" ColumnName="review_id" />
+                <ScalarProperty Name="MovieId" ColumnName="movie_id" />
+                <ScalarProperty Name="ReviewerName" ColumnName="reviewer_name" />
+                <ScalarProperty Name="ReviewerDate" ColumnName="reviewer_date" />
+                <ScalarProperty Name="Body" ColumnName="body" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies1">
+            <EntityTypeMapping TypeName="CSharp3.LINQ.EF.Movie">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="MovieId" ColumnName="movie_id" />
+                <ScalarProperty Name="Title" ColumnName="title" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="release_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,188 @@
+﻿LINQ Data Access
+Pluralsight Author: Scott Allen
+
+
+*** Stored Procedure
+
+ALTER PROCEDURE GetHighestRankedMovies
+    @SinceDate datetime
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT M.movie_id, M.title, M.release_date
+    FROM dbo.Movies M
+    ORDER BY (SELECT AVG(R.rating)
+              FROM MovieReviews R
+              WHERE R.movie_id = M.movie_id
+              GROUP BY R.movie_id) DESC
+END
+
+
+*** End Stored Procedure ***
+
+*** Entity Framework
+entity is 
+    -an object we can persists
+entity has
+    -key that makes the entity uniquely identifiable
+    -one or more scalar or complex properties
+    -one oor more relationships to other entities
+
+EF Services:
+Object Services <-- LINQ to Entities
+    |
+    |
+    v
+Entity Client  <-- Entity SQL
+    |
+    |
+    V
+CSDL | MSL | SSDL
+    |
+    |
+    V
+ADO.NET Providers --> Data Source
+
+ObjectContext
+- gateway to all entities, relies on mapping and object metada
+- entities live inside entity sets
+    - exposed as ObjectQuery<T> properties on the ObjectContext
+    - ObjectQuery<T> implements IQueryable<T>
+- materializes objects instead of returning a data reader
+
+
+*** Identity Map Pattern ***
+- keeps a record of all objects that have been read from the database in a single business transaction (Fowler)
+- EF implements an identity map
+    called the "object cache"
+    retrieved entities are tracked by key value
+    asking for a previously retrieved entity will return the previous object instance
+    type of query used to retrieve the entity is not important
+- each ObjectContext instance maintains it's own object cache
+    query for the same movie in two different ObjectContexts will return two different objects
+    Object cache is part of the ObjectStateManager
+- consequences
+    any changes from "outside" are not visible to our current ObjectContext (if we've already retrieved an entity)
+        consistency and integrity inside our working context
+        only changes we see are local changes
+    entity framework cannot update a table with no primary key
+        no way to ensure uniqueness and integrity of retrieved objects
+
+*** Unit of Work Pattern ***
+- maintains a list of objects affected by a business transaction and coordinates the writing out of changes and the resolution of concurrency problems (Fowler)
+- ObjectContext is designed to be used in a unit of work
+    for web apps, a unit of work may represent the processing of a single request
+    for smart client, a unit of work may be the life of a form
+    unit of work may be encapsulated inside a single method
+- ObjectContext is inexpensive to create
+    create as needed
+    don't cache or create a singleton
+    not thread safe
+
+Entity Lifecycle
+- object becomes an entity when ObjectContext becomes aware of the object
+    beginning of the lifecycle
+    can happen when object is retrieved from db
+    can also insert new objects and attach existing objects
+- lifecycle ends when ObjectContext no longer needed
+    context and object eligible for garbage collection
+
+Change Tracking
+- ObjectContext uses an internal change tracking service
+    service records changes to all known entities
+    ObjectContext uses list of changes to generate SQL command
+- how does the ObjectContext know what changed?
+    IEntityWithChangeTracker
+    IEntityChangeTracker
+
+Updating Associations
+- changing an object's relationship requires some work
+        object needs to change it's parent reference
+        object needs to be removed from the original parent's collection
+        object needs to be added to it's new parent's collection
+- all this work is managed by the framework
+    just move the entities, or reassign the parent properties
+
+Concurrency Management
+- concurrency checks are OFF by default
+    control in mapping setting concurrency property to "Fixed" for each property
+
+Concurrency Violations
+- SaveChanges can throw an exception
+    OptimisticConcurrencyException --> DbUpdateConcurrencyException
+    StateEntries property will hold conflicted entities
+- SubmitChanges is atomic - all changes roll back
+- ObjectContext left unchanged
+    changes can be resubmitted
+    entities can be refreshed from database
+    use MergeOptions on query
+
+*** Transaction ***
+- use the promotable TransactionScope from System.Transactions
+
+
+Detached Entities
+- detached entities are entities that "leave" their ObjectContext
+    sent over the wire in a web service call
+    sent to a client browser
+- later the entity can be re-attached
+    but you have to describe how the entity has changed
+    no remote change tracking
+
+
+*** Data Services ***
+
+Challenges
+- need to expose raw data to the web
+- traditional SOAP based web services have some drawbacks
+    have an obsession with HTTP POST
+    focus on operations (verbs) and not data (nouns)
+    rely on xml, wsdl, ws-*, and SOAP tooling
+
+ADO.NET Data Services Are RESTful
+- REpresentational State Transfer
+    uses only http and https
+    defines 4 operations with the http verbs get, post, put, and delete
+    treat entities as resources - entities are addressable by URL
+
+Basic Ingredients
+- one assembly reference
+    System.Data.Services
+- one WCF service endpoint
+    use Factory=DataServiceHostFactory in the @ Service attribute
+    service class derives from DataService<T>
+- one data source
+    entity framework EDM Model (ObjectContext derived class)
+    any CLR type with one or more public IQueryable<T> properties
+
+Setup CLR Model Data Source
+- resources must have a primary key
+    ID property or [DataServiceKey] decoration
+- implement IUpdateable if CUD support is required
+    EF provides it's own IUpdateable implementation
+
+Configuration
+- entity access rules
+    everything if off by default
+    SetEntityAccessRule uses property names to specify access rights
+    wildcard(*) allows access to all public, queryable properties
+
+Data Services Client
+- DataServiceContext class: designed to work with Data Services
+        lives in the System.Data.Services.Client assembly
+        converts LINQ queries to REST request
+        converts response to types defined in client assembly via reflection
+
+Query Interceptors
+- interceptors are fired on a GET request for a particular resource
+    inject custom logic into processing pipeline on a per request basis
+    uses: custom authorization, custom validation
+
+Service Operations
+- expose a method of the data service class as a URI
+    method could include custom business logic or complicated query logic
+- restrictions
+    method can only accept in parameters
+    must return void 'IQueryable<T>, or IEnumerable<T>
+    must decorate with [WebGet] or [WebInvoke]
