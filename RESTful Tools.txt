@@ -1,0 +1,94 @@
+Five Essential Tools In Building REST apis
+Pluralsight Author: Elton Stoneman
+
+Apiary Blueprint
+- collaborative
+- support build process through api stub
+- github support
+
+Alternatives
+Swagger - no separation between design and implementation, best support different platforms
+RAML - design first tool
+
+Testing api
+
+Rest Client
+Postman (chrome ext)
+
+RESTClient(firefox)
+REST Easy(firefox)
+
+cUrl - command line tool
+curl -v <url> //get verbose
+curl  -u user:pass <url>
+curl
+
+HTTP(Web) Debuggers
+Burp Suite : http://portswigger.net/burp
+Fiddler
+Charles (not free)
+
+Packet Sniffers
+Wireshark
+
+*** HTTP ***
+Caching
+- http 1.0 expiration caching: fixed datetime
+- http 1.1 expiration caching: lifecycle (cache-control: max-age, s-maxage) : fixed period
+- useful for shared resources
+
+- valiation caching
+    etag
+    last-modified
+
+
+DNS - Routing System
+- address book for the internet
+- multi-tiered system
+- cname
+
+SSL - Encryption of transport layer
+- https - 
+
+*** Performance Testing ***
+loader.io (free tier)
+blitz.io (paid)
+on-prem (standalone)
+
+*** Monitoring ***
+Logging
+- loggly
+- papertrail
+
+Instrumentation
+- New Relic
+- Stackify (paid)
+
+Diagnostic
+- 
+
+Delivery Process
+Design
+- collaboration, drives engagement, encourages early integration
+- apiary & raml
+- http caching, dns, ssl 
+Build
+- postman
+    test api as you build
+    deployment verification
+    end-to-end acceptance tests
+- cUrl
+    standalone http stack
+Test
+- burp, http debuggin, security tests
+- loader, load, soak, stress tests
+- part of the build process
+Run
+- loggly, remote logging, easy filter and search
+- new relic, platform instrumentation, rich analytics
+
+essential tools
+design -> testing -> http -> load testing -> monitoring
+www.essentialresttools.net
+
+api management
