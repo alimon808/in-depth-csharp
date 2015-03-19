@@ -30,8 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +51,31 @@
   <ItemGroup>
     <Compile Include="Delegates.cs" />
     <Compile Include="FakeEventRaiser.cs" />
+    <Compile Include="Linq\Custom\IEmployeeRepository.cs" />
+    <Compile Include="Linq\Custom\IRepository.cs" />
+    <Compile Include="Linq\Custom\IUnitOfWork.cs" />
+    <Compile Include="Linq\Custom\SqlRepository.cs" />
+    <Compile Include="Linq\Custom\SqlUnitOfWork.cs" />
+    <Compile Include="Linq\EF\IUnitOfWork.cs" />
+    <Compile Include="Linq\EF\SqlUnitOfWork.cs" />
+    <Compile Include="Linq\Employee.cs" />
+    <Compile Include="Linq\IEntity.cs" />
+    <Compile Include="Linq\Movie.cs" />
+    <Compile Include="Linq\MovieEvaluator.cs" />
+    <Compile Include="Linq\StringExtensions.cs" />
+    <Compile Include="Linq\TaskScheduler.cs" />
+    <Compile Include="Linq\TimeCard.cs" />
+    <Compile Include="Linq\Worker.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ShorthandEventRaiser.cs" />
     <Compile Include="LonghandEventRaiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

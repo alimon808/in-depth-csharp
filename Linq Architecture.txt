@@ -1,0 +1,6 @@
+Pluralsight course author: Scott Allen
+
+Functional Validation
+- using lambda expressions for a declarative approach
+    keep the code in a data structure for passive evalution
+    see CSharp4.Linq.MovieEvaluator implementation

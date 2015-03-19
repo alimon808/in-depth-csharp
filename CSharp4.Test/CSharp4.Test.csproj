@@ -68,6 +68,11 @@
     <Compile Include="DelegatesTest.cs" />
     <Compile Include="DerivedClass.cs" />
     <Compile Include="DerivedClassTest.cs" />
+    <Compile Include="Linq\ActionAndFuncDelegateTests.cs" />
+    <Compile Include="Linq\EmployeeTests.cs" />
+    <Compile Include="Linq\PublicTypesInAssemblyTest.cs" />
+    <Compile Include="Linq\QueryXmlTests.cs" />
+    <Compile Include="Linq\StringExtensionTests.cs" />
     <Compile Include="LonghandEventRaiserTest.cs" />
     <Compile Include="FakeEventRaiserTest.cs" />
     <Compile Include="IControllable.cs" />

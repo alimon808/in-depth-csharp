@@ -29,6 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp3.LINQ", "CSharp3.LIN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp3.LINQ.Tests", "CSharp3.LINQ.Tests\CSharp3.LINQ.Tests.csproj", "{209CE9C3-FDF0-4599-A8F5-3E75AD87C039}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47C4E7A9-3866-43BE-8EC2-93F2DE8BBAF7}"
+	ProjectSection(SolutionItems) = preProject
+		Linq Architecture.txt = Linq Architecture.txt
+		README.md = README.md
+		RESTful Tools.txt = RESTful Tools.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
