@@ -8,5 +8,6 @@ namespace CSharp4.Linq
         public virtual string Name { get; set; }
         public virtual DateTime HireDate { get; set; }
         public virtual ICollection<TimeCard> TimeCards { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

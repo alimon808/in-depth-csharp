@@ -56,6 +56,7 @@
     <Compile Include="Linq\Custom\IUnitOfWork.cs" />
     <Compile Include="Linq\Custom\SqlRepository.cs" />
     <Compile Include="Linq\Custom\SqlUnitOfWork.cs" />
+    <Compile Include="Linq\Department.cs" />
     <Compile Include="Linq\EF\IUnitOfWork.cs" />
     <Compile Include="Linq\EF\SqlUnitOfWork.cs" />
     <Compile Include="Linq\Employee.cs" />
