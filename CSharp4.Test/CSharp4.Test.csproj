@@ -70,6 +70,7 @@
     <Compile Include="DerivedClassTest.cs" />
     <Compile Include="Linq\ActionAndFuncDelegateTests.cs" />
     <Compile Include="Linq\AggregationTests.cs" />
+    <Compile Include="Linq\ContactTests.cs" />
     <Compile Include="Linq\ElementOperationsTests.cs" />
     <Compile Include="Linq\EmployeeTests.cs" />
     <Compile Include="Linq\EqualityTests.cs" />

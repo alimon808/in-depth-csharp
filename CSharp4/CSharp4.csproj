@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Delegates.cs" />
     <Compile Include="FakeEventRaiser.cs" />
+    <Compile Include="Linq\CallLog.cs" />
+    <Compile Include="Linq\Contact.cs" />
     <Compile Include="Linq\Custom\IEmployeeRepository.cs" />
     <Compile Include="Linq\Custom\IRepository.cs" />
     <Compile Include="Linq\Custom\IUnitOfWork.cs" />
